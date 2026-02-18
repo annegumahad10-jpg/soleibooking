@@ -4,12 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SHEIN BOOKING 🧸</title>
-    <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600;800&display=swap" rel="stylesheet">
-    
     <!-- Firebase SDKs -->
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
-
+    <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600;800&display=swap" rel="stylesheet">
     <style>
         :root {
             --red-brown: #a94432;
@@ -17,362 +15,322 @@
             --light-bg: #ffffff;
             --border-width: 4px;
         }
-
-        body {
-            margin: 0;
-            font-family: 'Baloo 2', cursive;
-            background: #fffafa;
-            padding: 15px;
-            color: #444;
-        }
-
-        /* ====== CUTIE CONTAINERS ====== */
-        .container {
-            background: var(--light-bg);
-            padding: 25px 20px;
-            border-radius: 35px;
-            width: 100%;
-            max-width: 480px;
-            border: var(--border-width) solid var(--red-brown);
-            box-shadow: 8px 8px 0px rgba(169, 68, 50, 0.1);
-            text-align: center;
-            box-sizing: border-box;
-            margin: 20px auto;
-        }
-
+        body { margin: 0; font-family: 'Baloo 2', cursive; background: #fffafa; padding: 15px; color: #444; }
+        .container { background: var(--light-bg); padding: 25px 20px; border-radius: 35px; width: 100%; max-width: 480px; border: var(--border-width) solid var(--red-brown); box-shadow: 8px 8px 0px rgba(169, 68, 50, 0.1); text-align: center; box-sizing: border-box; margin: 20px auto; }
         h1 { color: var(--red-brown); margin-bottom: 20px; font-size: 28px; font-weight: 800; }
-
-        /* ====== BALANCED BUTTONS ====== */
-        button {
-            width: 100%; padding: 15px; margin: 10px 0;
-            border: 3px solid var(--red-brown); border-radius: 20px;
-            font-size: 17px; font-weight: 800; cursor: pointer;
-            transition: 0.2s; font-family: 'Baloo 2', cursive;
-        }
-
+        button { width: 100%; padding: 15px; margin: 10px 0; border: 3px solid var(--red-brown); border-radius: 20px; font-size: 17px; font-weight: 800; cursor: pointer; transition: 0.2s; font-family: 'Baloo 2', cursive; }
         .btn-purple { background: var(--purple-blue); color: white; border-color: var(--purple-blue); }
         .btn-brown { background: var(--red-brown); color: white; border-color: var(--red-brown); }
         .btn-outline { background: white; color: #666; border: 3px solid #ccc; }
-        
         button:hover { transform: translateY(-3px); opacity: 0.9; }
-
-        /* ====== TOGGLE BUTTONS ====== */
         .type-toggle-container { display: flex; gap: 10px; margin: 15px 0; }
-        .type-btn {
-            flex: 1; padding: 12px; border: 3px solid var(--purple-blue);
-            background: white; color: var(--purple-blue); font-weight: 800;
-            border-radius: 18px; cursor: pointer; font-family: 'Baloo 2', cursive;
-        }
+        .type-btn { flex: 1; padding: 12px; border: 3px solid var(--purple-blue); background: white; color: var(--purple-blue); font-weight: 800; border-radius: 18px; cursor: pointer; font-family: 'Baloo 2', cursive; }
         .type-btn.active { background: var(--purple-blue); color: white; }
-
-        /* ====== INPUTS ====== */
-        input, textarea, select {
-            width: 100%; padding: 12px; margin: 8px 0;
-            border-radius: 18px; border: 3px solid #f0f0f0;
-            outline: none; font-size: 15px; box-sizing: border-box;
-            font-family: 'Baloo 2', cursive;
-        }
-        input:focus { border-color: var(--purple-blue); }
-
+        input, textarea, select { width: 100%; padding: 12px; margin: 8px 0; border-radius: 18px; border: 3px solid #f0f0f0; outline: none; font-size: 15px; box-sizing: border-box; font-family: 'Baloo 2', cursive; }
+        input:focus, textarea:focus { border-color: var(--purple-blue); }
         .sku-input { margin-bottom: 15px; border: 3px solid #eee; padding: 15px; border-radius: 25px; background: #fff; text-align: left; }
-
-        .total-price {
-            font-weight: 800; margin: 20px 0; color: var(--red-brown);
-            font-size: 24px; background: #fff5f4; padding: 15px;
-            border-radius: 25px; border: 3px dashed var(--red-brown);
-        }
-
-        .order-card {
-            text-align: left; background: #fafafa; border: 3px solid #eee;
-            padding: 15px; border-radius: 20px; margin-top: 15px; font-size: 14px;
-        }
-
-        .qr-link { font-size: 12px; color: var(--purple-blue); word-break: break-all; margin-bottom: 15px; display: block; text-decoration: none; font-weight: 600; }
-
-        .processing-screen {
-            position: fixed; inset: 0; background: rgba(106, 90, 205, 0.98);
-            display: none; justify-content: center; align-items: center;
-            flex-direction: column; color: white; z-index: 9999;
-        }
-
-        .loader {
-            width: 60px; height: 60px; border: 8px solid #fff;
-            border-top: 8px solid var(--red-brown); border-radius: 50%;
-            animation: spin 1s linear infinite; margin-bottom: 20px;
-        }
+        .total-price { font-weight: 800; margin: 20px 0; color: var(--red-brown); font-size: 24px; background: #fff5f4; padding: 15px; border-radius: 25px; border: 3px dashed var(--red-brown); }
+        .order-card { text-align: left; background: #fafafa; border: 3px solid #eee; padding: 15px; border-radius: 20px; margin-top: 15px; font-size: 14px; position: relative; }
+        .item-row { background: #fff; padding: 8px; border-radius: 10px; margin-bottom: 5px; border-left: 4px solid var(--purple-blue); font-size: 13px; }
+        .badge { display: inline-block; padding: 4px 10px; border-radius: 10px; font-weight: 800; font-size: 12px; }
+        .badge-pending { background: #fff3cd; color: #856404; }
+        .badge-completed { background: #d4edda; color: #155724; }
+        .processing-screen { position: fixed; inset: 0; background: rgba(106, 90, 205, 0.98); display: none; justify-content: center; align-items: center; flex-direction: column; color: white; z-index: 9999; }
+        .loader { width: 60px; height: 60px; border: 8px solid #fff; border-top: 8px solid var(--red-brown); border-radius: 50%; animation: spin 1s linear infinite; margin-bottom: 20px; }
         @keyframes spin { 100% { transform: rotate(360deg); } }
     </style>
 </head>
 <body>
 
-    <!-- HOME PAGE -->
-    <div id="home" class="container">
-        <h1>🧸 SHEIN BOOKING</h1>
-        <button id="btnPlace" class="btn-purple">🛍️ Place Order</button>
-        <button id="btnStatus" class="btn-brown">📦 Check My Order</button>
-        <button id="btnAdmin" class="btn-outline">🔐 Admin Panel</button>
+<!-- HOME PAGE -->
+<div id="home" class="container">
+    <h1>🧸 SHEIN BOOKING</h1>
+    <button id="btnPlace" class="btn-purple">🛍️ Place Order</button>
+    <button id="btnStatus" class="btn-brown">📦 Check My Order</button>
+    <button id="btnAdmin" class="btn-outline">🔐 Admin Panel</button>
+</div>
+
+<!-- ORDER PAGE -->
+<div id="place" class="container" style="display:none; border-color: var(--purple-blue);">
+    <h1 style="color: var(--purple-blue);">🛍️ Place Order</h1>
+    <input type="text" id="name" placeholder="Full Name">
+    <input type="text" id="phone" placeholder="Phone Number (11 digits)" inputmode="numeric" maxlength="11">
+    <div style="display: flex; gap: 8px;">
+        <input type="text" id="state" placeholder="Province">
+        <input type="text" id="municipality" placeholder="Municipality">
     </div>
-
-    <!-- ORDER PAGE -->
-    <div id="place" class="container" style="display:none; border-color: var(--purple-blue);">
-        <h1 style="color: var(--purple-blue);">🛍️ Place Order</h1>
-        <input type="text" id="name" placeholder="Full Name">
-        <input type="text" id="phone" placeholder="Phone Number (11 digits)" inputmode="numeric" maxlength="11">
-        
-        <div style="display: flex; gap: 8px;">
-            <input type="text" id="state" placeholder="Province">
-            <input type="text" id="municipality" placeholder="Municipality">
-        </div>
-        <input type="text" id="barangay" placeholder="Barangay">
-        <input type="text" id="zip" placeholder="Zip Code (5 digits)" inputmode="numeric" maxlength="5">
-        
-        <textarea id="note" placeholder="Note to seller..."></textarea>
-
-        <div class="type-toggle-container">
-            <button type="button" class="type-btn active" id="typeBundle">Bundle Checkout</button>
-            <button type="button" class="type-btn" id="typeSingle">Single Checkout</button>
-        </div>
-
-        <input type="number" id="itemCount" placeholder="Item Quantity">
-        <div id="skuInputs"></div>
-        <div class="total-price" id="totalPrice">Total: ₱0</div>
-        
-        <p style="font-weight: 800; color: var(--red-brown); margin-bottom: 5px;">Scan to Pay 💳</p>
-        <img src="https://i.imgur.com/MOC4LZ6.jpeg" style="width:180px; border-radius:15px; border:3px solid var(--red-brown); margin-bottom:5px;">
-        <a href="https://i.imgur.com/MOC4LZ6.jpeg" target="_blank" class="qr-link">https://i.imgur.com/MOC4LZ6.jpeg</a>
-        
-        <input type="text" id="ref" placeholder="Payment Reference Number">
-        
-        <button id="btnSubmit" class="btn-purple">Submit Order ✨</button>
-        <button id="btnBackPlace" class="btn-outline">Back</button>
+    <input type="text" id="barangay" placeholder="Barangay">
+    <textarea id="fullAddress" placeholder="✨ COMPLETE ADDRESS (Street, House No, Landmark)"></textarea>
+    <input type="text" id="zip" placeholder="Zip Code (4-5 digits)" inputmode="numeric" maxlength="5">
+    <textarea id="note" placeholder="Note to seller..."></textarea>
+    
+    <div class="type-toggle-container">
+        <button type="button" class="type-btn active" id="typeBundle">Bundle Checkout</button>
+        <button type="button" class="type-btn" id="typeSingle">Single Checkout</button>
     </div>
+    
+    <input type="number" id="itemCount" placeholder="Item Quantity">
+    <div id="skuInputs"></div>
+    <div class="total-price" id="totalPrice">Total: ₱0</div>
+    
+    <p style="font-weight: 800; color: var(--red-brown); margin-bottom: 5px;">Scan to Pay 💳</p>
+    <img src="https://i.imgur.com/MOC4LZ6.jpeg" style="width:180px; border-radius:15px; border:3px solid var(--red-brown); margin-bottom:5px;">
+    <input type="text" id="ref" placeholder="Payment Reference Number">
+    
+    <button id="btnSubmit" class="btn-purple">Submit Order ✨</button>
+    <button id="btnBackPlace" class="btn-outline">Back</button>
+</div>
 
-    <!-- STATUS PAGE -->
-    <div id="status" class="container" style="display:none; border-color: var(--red-brown);">
-        <h1>📦 My Order History</h1>
-        <input type="text" id="searchName" placeholder="Enter your Full Name">
-        <button id="btnCheckStatus" class="btn-brown">Find My Order</button>
-        <div id="statusResult"></div>
-        <button id="btnBackStatus" class="btn-outline">Back</button>
-    </div>
+<!-- STATUS PAGE -->
+<div id="status" class="container" style="display:none; border-color: var(--red-brown);">
+    <h1>📦 Order Status</h1>
+    <input type="text" id="searchName" placeholder="Enter your Registered Full Name">
+    <button id="btnCheckStatus" class="btn-brown">Find My Order</button>
+    <div id="statusResult"></div>
+    <button id="btnBackStatus" class="btn-outline">Back</button>
+</div>
 
-    <!-- ADMIN LOGIN -->
-    <div id="admin" class="container" style="display:none;">
-        <h1>🔐 Admin Access</h1>
-        <input type="password" id="adminPassword" placeholder="Enter Admin Password">
-        <button id="btnAdminLogin" class="btn-purple">Login</button>
-        <button id="btnBackAdmin" class="btn-outline">Back</button>
-    </div>
+<!-- ADMIN LOGIN -->
+<div id="admin" class="container" style="display:none;">
+    <h1>🔐 Admin Access</h1>
+    <input type="password" id="adminPassword" placeholder="Enter Admin Password">
+    <button id="btnAdminLogin" class="btn-purple">Login</button>
+    <button id="btnBackAdmin" class="btn-outline">Back</button>
+</div>
 
-    <!-- ADMIN PANEL -->
-    <div id="adminPanel" class="container" style="display:none;">
-        <h1>👨‍💻 Admin Panel</h1>
-        <div id="adminOrders"></div>
-        <button id="btnAdminLogout" class="btn-outline">Logout</button>
-    </div>
+<!-- ADMIN PANEL -->
+<div id="adminPanel" class="container" style="display:none; max-width: 600px;">
+    <h1>👨‍💻 Orders List</h1>
+    <div id="adminOrders"></div>
+    <button id="btnAdminLogout" class="btn-outline">Logout</button>
+</div>
 
-    <!-- PROCESSING SCREEN -->
-    <div id="processingScreen" class="processing-screen">
-        <div class="loader"></div>
-        <div id="processingText" style="font-size:20px; font-weight:800;">✨ SYNCING TO CLOUD... ✨</div>
-        <div id="successText" style="display:none; font-size:24px; font-weight:800;">🧸 ORDER RECEIVED! 🧸</div>
-    </div>
+<!-- PROCESSING SCREEN -->
+<div id="processingScreen" class="processing-screen">
+    <div class="loader"></div>
+    <div id="processingText" style="font-size:20px; font-weight:800;">✨ SYNCING TO CLOUD... ✨</div>
+    <div id="successText" style="display:none; font-size:24px; font-weight:800;">🧸 ORDER RECEIVED! 🧸</div>
+</div>
 
-    <script>
-        // --- FIREBASE CONFIG ---
-        const firebaseConfig = {
-            apiKey: "AIzaSyCNSYtQeoaNCpPMI_QGcRBCQ2ZZzpTF4pg",
-            authDomain: "soleibooking.firebaseapp.com",
-            projectId: "soleibooking",
-            storageBucket: "soleibooking.firebasestorage.app",
-            messagingSenderId: "505843193494",
-            appId: "1:505843193494:web:aef48f29998e574a9514b7",
-            databaseURL: "https://soleibooking-default-rtdb.firebaseio.com"
-        };
-        
-        firebase.initializeApp(firebaseConfig);
-        const db = firebase.database();
+<script>
+    // --- FIREBASE CONFIG ---
+    const firebaseConfig = {
+        apiKey: "AIzaSyCNSYtQeoaNCpPMI_QGcRBCQ2ZZzpTF4pg",
+        authDomain: "soleibooking.firebaseapp.com",
+        projectId: "soleibooking",
+        storageBucket: "soleibooking.firebasestorage.app",
+        messagingSenderId: "505843193494",
+        appId: "1:505843193494:web:aef48f29998e574a9514b7",
+        databaseURL: "https://soleibooking-default-rtdb.firebaseio.com"
+    };
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.database();
 
-        const priceMap = {
-            bundle: { "70%": 70, "255 Capped": 80 },
-            single: { "70%": 40, "255 Capped": 50 }
-        };
-        let currentCheckoutType = "bundle";
-        let ADMIN_PASS = "soleixea123";
+    const priceMap = {
+        bundle: { "70%": 70, "255 Capped": 80 },
+        single: { "70%": 40, "255 Capped": 50 }
+    };
+    let currentCheckoutType = "bundle";
+    let ADMIN_PASS = "soleixea123";
 
-        // Input Sanitization
-        function digitsOnly(e) { e.target.value = e.target.value.replace(/\D/g, ''); }
-        document.getElementById("phone").oninput = digitsOnly;
-        document.getElementById("zip").oninput = digitsOnly;
+    // Navigation
+    function showPage(p){
+        document.querySelectorAll('.container').forEach(c => c.style.display='none');
+        document.getElementById(p).style.display='block';
+    }
+    document.getElementById("btnPlace").onclick = () => showPage('place');
+    document.getElementById("btnStatus").onclick = () => showPage('status');
+    document.getElementById("btnAdmin").onclick = () => showPage('admin');
+    document.getElementById("btnBackPlace").onclick = () => showPage('home');
+    document.getElementById("btnBackStatus").onclick = () => showPage('home');
+    document.getElementById("btnBackAdmin").onclick = () => showPage('home');
 
-        // Navigation
-        function showPage(p){
-            document.querySelectorAll('.container').forEach(c => c.style.display='none');
-            document.getElementById(p).style.display='block';
-        }
-        document.getElementById("btnPlace").onclick = () => showPage('place');
-        document.getElementById("btnStatus").onclick = () => showPage('status');
-        document.getElementById("btnAdmin").onclick = () => showPage('admin');
-        document.getElementById("btnBackPlace").onclick = () => showPage('home');
-        document.getElementById("btnBackStatus").onclick = () => showPage('home');
-        document.getElementById("btnBackAdmin").onclick = () => showPage('home');
+    // Toggle Logic
+    const bB = document.getElementById("typeBundle"), bS = document.getElementById("typeSingle");
+    bB.onclick = () => { currentCheckoutType = "bundle"; bB.classList.add("active"); bS.classList.remove("active"); refreshVouchers(); };
+    bS.onclick = () => { currentCheckoutType = "single"; bS.classList.add("active"); bB.classList.remove("active"); refreshVouchers(); };
 
-        // Toggle Logic
-        const bB = document.getElementById("typeBundle"), bS = document.getElementById("typeSingle");
-        bB.onclick = () => { currentCheckoutType = "bundle"; bB.classList.add("active"); bS.classList.remove("active"); refreshVouchers(); };
-        bS.onclick = () => { currentCheckoutType = "single"; bS.classList.add("active"); bB.classList.remove("active"); refreshVouchers(); };
+    const itemInp = document.getElementById("itemCount"), skuDiv = document.getElementById("skuInputs");
+    itemInp.oninput = refreshVouchers;
 
-        const itemInp = document.getElementById("itemCount"), skuDiv = document.getElementById("skuInputs");
-        itemInp.oninput = refreshVouchers;
-
-        function refreshVouchers() {
-            const count = parseInt(itemInp.value) || 0;
-            skuDiv.innerHTML = "";
-            for(let i=1; i<=count; i++){
-                const div = document.createElement("div");
-                div.className = "sku-input";
-                div.innerHTML = `<b style="color:var(--purple-blue)">Item #${i}</b>
-                    <input type="text" placeholder="SKU Code" class="sku">
-                    <div style="display:flex; gap:5px;"><input type="text" placeholder="Size" class="skuSize"><input type="text" placeholder="Color" class="skuColor"></div>
-                    <select class="voucher"><option value="">Select Voucher</option>
+    function refreshVouchers() {
+        const count = parseInt(itemInp.value) || 0;
+        skuDiv.innerHTML = "";
+        for(let i=1; i<=count; i++){
+            const div = document.createElement("div");
+            div.className = "sku-input";
+            div.innerHTML = `
+                <b style="color:var(--purple-blue)">Item #${i}</b>
+                <input type="text" placeholder="SKU Code" class="sku">
+                <div style="display:flex; gap:5px;">
+                    <input type="text" placeholder="Size" class="skuSize">
+                    <input type="text" placeholder="Color" class="skuColor">
+                </div>
+                <select class="voucher">
+                    <option value="">Select Voucher</option>
                     <option value="70%">70% - ₱${priceMap[currentCheckoutType]["70%"]}</option>
-                    <option value="255 Capped">255 Capped - ₱${priceMap[currentCheckoutType]["255 Capped"]}</option></select>`;
-                skuDiv.appendChild(div);
+                    <option value="255 Capped">255 Capped - ₱${priceMap[currentCheckoutType]["255 Capped"]}</option>
+                </select>`;
+            skuDiv.appendChild(div);
+        }
+        skuDiv.querySelectorAll(".voucher").forEach(s => s.onchange = updateTotal);
+        updateTotal();
+    }
+
+    function updateTotal() {
+        let total = 0;
+        document.querySelectorAll(".voucher").forEach(v => {
+            if(v.value) total += priceMap[currentCheckoutType][v.value];
+        });
+        document.getElementById("totalPrice").innerText = `Total: ₱${total}`;
+    }
+
+    // --- SUBMIT ---
+    document.getElementById("btnSubmit").onclick = () => {
+        const nm = document.getElementById("name").value.trim(),
+              ph = document.getElementById("phone").value,
+              addr = document.getElementById("fullAddress").value.trim(),
+              rf = document.getElementById("ref").value.trim();
+
+        if(!nm || ph.length < 11 || !addr || !rf) return alert("Please fill in all details including Complete Address and Ref #!");
+
+        const skus = [];
+        document.querySelectorAll(".sku-input").forEach(e => {
+            const s = e.querySelector(".sku").value,
+                  sz = e.querySelector(".skuSize").value,
+                  cl = e.querySelector(".skuColor").value,
+                  v = e.querySelector(".voucher").value;
+            if(s && v) skus.push({sku:s, size: sz || 'N/A', color: cl || 'N/A', voucher:v, price: priceMap[currentCheckoutType][v]});
+        });
+
+        if(skus.length === 0) return alert("Add at least one item with SKU and Voucher!");
+
+        const order = {
+            id: Date.now(),
+            name: nm, phone: ph, ref: rf,
+            state: document.getElementById("state").value,
+            mun: document.getElementById("municipality").value,
+            brgy: document.getElementById("barangay").value,
+            fullAddr: addr,
+            zip: document.getElementById("zip").value,
+            note: document.getElementById("note").value,
+            skus,
+            total: skus.reduce((a,b)=>a+b.price, 0),
+            status: "PENDING",
+            adminNote: "",
+            adminDel: false, custDel: false,
+            type: currentCheckoutType
+        };
+
+        document.getElementById("processingScreen").style.display="flex";
+        db.ref('orders').push(order).then(() => {
+            document.getElementById("processingText").style.display="none";
+            document.getElementById("successText").style.display="block";
+            setTimeout(()=> location.reload(), 1500);
+        });
+    };
+
+    // --- ADMIN PANEL ---
+    document.getElementById("btnAdminLogin").onclick = () => {
+        if(document.getElementById("adminPassword").value === ADMIN_PASS) {
+            showPage('adminPanel');
+            db.ref('orders').on('value', (snap) => renderAdmin(snap.val()));
+        } else alert("Wrong password!");
+    };
+
+    function renderAdmin(data) {
+        const cont = document.getElementById("adminOrders");
+        cont.innerHTML = "";
+        if(!data) { cont.innerHTML = "No orders found."; return; }
+
+        Object.keys(data).forEach(key => {
+            const o = data[key];
+            if(o.adminDel) return;
+
+            let itemsHtml = o.skus.map(i => `
+                <div class="item-row">
+                    <b>SKU:</b> ${i.sku} | <b>Size:</b> ${i.size} | <b>Color:</b> ${i.color}<br>
+                    <small>Voucher: ${i.voucher} (₱${i.price})</small>
+                </div>
+            `).join('');
+
+            const div = document.createElement("div");
+            div.className = "order-card";
+            div.innerHTML = `
+                <span class="badge ${o.status === 'COMPLETED' ? 'badge-completed' : 'badge-pending'}">${o.status}</span><br>
+                <b>Customer:</b> ${o.name} (${o.phone})<br>
+                <b>Ref #:</b> <span style="color:var(--purple-blue)">${o.ref}</span><br>
+                <b>Address:</b> ${o.fullAddr}, ${o.brgy}, ${o.mun}, ${o.state}<br>
+                <hr>
+                <b>Items:</b><br>${itemsHtml}
+                <hr>
+                <b>Total: ₱${o.total}</b><br>
+                <textarea id="anote-${key}" placeholder="Add admin notes here...">${o.adminNote || ""}</textarea>
+                <div style="display:flex; gap:5px;">
+                    <button class="btn-purple" style="padding:10px; font-size:13px;" onclick="confirmOrder('${key}')">Verify & Complete</button>
+                    <button class="btn-brown" style="padding:10px; font-size:13px;" onclick="deleteOrder('${key}', 'admin')">Archive</button>
+                </div>
+            `;
+            cont.appendChild(div);
+        });
+    }
+
+    window.confirmOrder = (key) => {
+        const n = document.getElementById(`anote-${key}`).value.trim();
+        db.ref('orders/' + key).update({ status: "COMPLETED", adminNote: n || "Verified by Admin" });
+        alert("Order marked as COMPLETED!");
+    };
+
+    // --- CUSTOMER CHECK STATUS ---
+    document.getElementById("btnCheckStatus").onclick = () => {
+        const searchNm = document.getElementById("searchName").value.trim().toLowerCase();
+        const res = document.getElementById("statusResult");
+        if(!searchNm) return alert("Enter your name!");
+        
+        res.innerHTML = "Searching...";
+        db.ref('orders').once('value', (snap) => {
+            const data = snap.val();
+            res.innerHTML = "";
+            let found = false;
+            if(data) {
+                Object.keys(data).forEach(key => {
+                    const o = data[key];
+                    if(o.name.toLowerCase() === searchNm && !o.custDel) {
+                        found = true;
+                        let itemsHtml = o.skus.map(i => `<div class="item-row"><b>SKU:</b> ${i.sku} | <b>Size:</b> ${i.size} | <b>Color:</b> ${i.color}</div>`).join('');
+                        
+                        const div = document.createElement("div");
+                        div.className = "order-card";
+                        div.style.borderColor = "var(--purple-blue)";
+                        div.innerHTML = `
+                            <div style="text-align:center; margin-bottom:10px;">
+                                <span class="badge ${o.status === 'COMPLETED' ? 'badge-completed' : 'badge-pending'}">${o.status}</span>
+                            </div>
+                            <b>Admin's Note:</b> <span style="color:var(--red-brown)">${o.adminNote || "Pending verification..."}</span><hr>
+                            <b>Reference #:</b> ${o.ref}<br>
+                            <b>Address:</b> ${o.fullAddr}, ${o.brgy}<br>
+                            <hr>
+                            <b>Your Items:</b><br>${itemsHtml}
+                            <hr>
+                            <b>Total Amount: ₱${o.total}</b>
+                            <button class="btn-brown" style="padding:5px; font-size:12px; margin-top:10px;" onclick="deleteOrder('${key}', 'cust')">Remove from History</button>
+                        `;
+                        res.appendChild(div);
+                    }
+                });
             }
-            skuDiv.querySelectorAll(".voucher").forEach(s => s.onchange = updateTotal);
-            updateTotal();
-        }
+            if(!found) res.innerHTML = "No records found for this name. Please check your spelling!";
+        });
+    };
 
-        function updateTotal() {
-            let total = 0;
-            document.querySelectorAll(".voucher").forEach(v => { if(v.value) total += priceMap[currentCheckoutType][v.value]; });
-            document.getElementById("totalPrice").innerText = `Total: ₱${total}`;
-        }
+    window.deleteOrder = (key, type) => {
+        if(!confirm("Are you sure?")) return;
+        if(type === 'admin') db.ref('orders/' + key).update({ adminDel: true });
+        else db.ref('orders/' + key).update({ custDel: true });
+        location.reload();
+    };
 
-        function clearForm() {
-            document.getElementById("name").value = "";
-            document.getElementById("phone").value = "";
-            document.getElementById("state").value = "";
-            document.getElementById("municipality").value = "";
-            document.getElementById("barangay").value = "";
-            document.getElementById("zip").value = "";
-            document.getElementById("note").value = "";
-            document.getElementById("itemCount").value = "";
-            skuDiv.innerHTML = "";
-            document.getElementById("ref").value = "";
-            document.getElementById("totalPrice").innerText = "Total: ₱0";
-        }
-
-        // --- SUBMIT ---
-        document.getElementById("btnSubmit").onclick = () => {
-            const ph = document.getElementById("phone").value, zip = document.getElementById("zip").value, 
-                  nm = document.getElementById("name").value.trim(), rf = document.getElementById("ref").value.trim();
-            if(!nm || ph.length !== 11 || zip.length < 1 || zip.length > 5 || !rf) return alert("Check all fields cutie!");
-
-            const skus = [];
-            document.querySelectorAll(".sku-input").forEach(e => {
-                const s = e.querySelector(".sku").value, v = e.querySelector(".voucher").value;
-                if(s && v) skus.push({sku:s, voucher:v, price: priceMap[currentCheckoutType][v]});
-            });
-            if(skus.length === 0) return alert("Add items first!");
-
-            const order = {
-                id: Date.now(), name: nm, phone: ph, ref: rf, 
-                state: document.getElementById("state").value, mun: document.getElementById("municipality").value,
-                brgy: document.getElementById("barangay").value, zip: zip, note: document.getElementById("note").value,
-                skus, total: skus.reduce((a,b)=>a+b.price, 0), status: "PENDING", adminNote: "", 
-                adminDel: false, custDel: false, type: currentCheckoutType
-            };
-
-            document.getElementById("processingScreen").style.display="flex";
-            db.ref('orders').push(order).then(() => {
-                document.getElementById("processingText").style.display="none"; 
-                document.getElementById("successText").style.display="block"; 
-                setTimeout(()=> {
-                    clearForm();
-                    document.getElementById("processingScreen").style.display="none";
-                    document.getElementById("processingText").style.display="block";
-                    document.getElementById("successText").style.display="none";
-                    showPage('home');
-                }, 1500);
-            });
-        };
-
-        // --- ADMIN ---
-        document.getElementById("btnAdminLogin").onclick = () => {
-            if(document.getElementById("adminPassword").value === ADMIN_PASS) { 
-                showPage('adminPanel'); 
-                db.ref('orders').on('value', (snap) => renderAdmin(snap.val()));
-            } else alert("Wrong password!");
-        };
-
-        function renderAdmin(data) {
-            const cont = document.getElementById("adminOrders");
-            cont.innerHTML = "";
-            if(!data) { cont.innerHTML = "No orders found."; return; }
-            Object.keys(data).forEach(key => {
-                const o = data[key];
-                if(o.adminDel) return;
-                const div = document.createElement("div");
-                div.className = "order-card";
-                div.innerHTML = `
-                    <b>CUSTOMER:</b> ${o.name} (${o.phone})<br><b>REF:</b> ${o.ref}<br>
-                    <b>ADDRESS:</b> ${o.brgy}, ${o.mun}, ${o.state} ${o.zip}<br>
-                    <b>TOTAL:</b> ₱${o.total} | <b>STATUS:</b> ${o.status}<br>
-                    <textarea id="anote-${key}" placeholder="Mandatory Admin Note">${o.adminNote || ""}</textarea>
-                    <button class="btn-purple" style="padding:8px" onclick="confirmOrder('${key}')">Confirm & Complete</button>
-                    <button class="btn-brown" style="padding:8px" onclick="deleteOrder('${key}', 'admin')">Remove from Panel</button>
-                `;
-                cont.appendChild(div);
-            });
-        }
-
-        window.confirmOrder = (key) => {
-            const n = document.getElementById(`anote-${key}`).value.trim();
-            if(!n) return alert("Note is mandatory!");
-            db.ref('orders/' + key).update({ status: "COMPLETED", adminNote: n });
-            alert("Order marked COMPLETED!");
-        };
-
-        // --- CUSTOMER STATUS ---
-        document.getElementById("btnCheckStatus").onclick = () => {
-            const searchNm = document.getElementById("searchName").value.trim().toLowerCase();
-            const res = document.getElementById("statusResult");
-            res.innerHTML = "Searching...";
-            db.ref('orders').once('value', (snap) => {
-                const data = snap.val(); res.innerHTML = "";
-                let found = false;
-                if(data) {
-                    Object.keys(data).forEach(key => {
-                        const o = data[key];
-                        if(o.name.toLowerCase() === searchNm && !o.custDel) {
-                            found = true;
-                            const div = document.createElement("div");
-                            div.className = "order-card";
-                            div.style.borderColor = "var(--purple-blue)";
-                            div.innerHTML = `
-                                <b>Status:</b> <span style="color:var(--purple-blue); font-weight:800">${o.status}</span><br>
-                                <b>Admin Note:</b> ${o.adminNote || "Checking..."}<br><hr>
-                                <b>Ref:</b> ${o.ref} | <b>Total:</b> ₱${o.total}<br>
-                                <b>Address:</b> ${o.brgy}, ${o.mun}, ${o.state} ${o.zip}<br>
-                                <button class="btn-brown" style="padding:5px; font-size:12px;" onclick="deleteOrder('${key}', 'cust')">Delete History</button>
-                            `;
-                            res.appendChild(div);
-                        }
-                    });
-                }
-                if(!found) res.innerHTML = "No order history found.";
-            });
-        };
-
-        window.deleteOrder = (key, type) => {
-            if(!confirm("Are you sure?")) return;
-            if(type === 'admin') db.ref('orders/' + key).update({ adminDel: true });
-            else db.ref('orders/' + key).update({ custDel: true });
-            if(type === 'cust') document.getElementById("btnCheckStatus").onclick();
-        };
-
-        document.getElementById("btnAdminLogout").onclick = () => location.reload();
-    </script>
+    document.getElementById("btnAdminLogout").onclick = () => location.reload();
+</script>
 </body>
 </html>
