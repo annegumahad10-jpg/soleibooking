@@ -4,17 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SHEIN BOOKING 🧸</title>
-    <!-- Firebase SDKs -->
-    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600;800&display=swap" rel="stylesheet">
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
     <style>
-        :root {
-            --red-brown: #a94432;
-            --purple-blue: #6a5acd;
-            --light-bg: #ffffff;
-            --border-width: 4px;
-        }
+        :root { --red-brown: #a94432; --purple-blue: #6a5acd; --light-bg: #ffffff; --border-width: 4px; }
         body { margin: 0; font-family: 'Baloo 2', cursive; background: #fffafa; padding: 15px; color: #444; }
         .container { background: var(--light-bg); padding: 25px 20px; border-radius: 35px; width: 100%; max-width: 480px; border: var(--border-width) solid var(--red-brown); box-shadow: 8px 8px 0px rgba(169, 68, 50, 0.1); text-align: center; box-sizing: border-box; margin: 20px auto; }
         h1 { color: var(--red-brown); margin-bottom: 20px; font-size: 28px; font-weight: 800; }
@@ -42,28 +36,26 @@
 </head>
 <body>
 
-<!-- HOME PAGE -->
+<!-- Home 🏠 -->
 <div id="home" class="container">
-    <h1>🧸 SHEIN BOOKING</h1>
-    <button id="btnPlace" class="btn-purple">🛍️ Place Order</button>
-    <button id="btnStatus" class="btn-brown">📦 Check My Order</button>
+    <h1>🧸 SHEIN BOOKING 🛍️</h1>
+    <button id="btnPlace" class="btn-purple">Place Order 📦</button>
+    <button id="btnStatus" class="btn-brown">Check My Order 🔍</button>
     <button id="btnAdmin" class="btn-outline">🔐 Admin Panel</button>
 </div>
 
-<!-- ORDER PAGE -->
-<div id="place" class="container" style="display:none; border-color: var(--purple-blue);">
-    <h1 style="color: var(--purple-blue);">🛍️ Place Order</h1>
+<!-- Place Order 🛍️ -->
+<div id="place" class="container" style="display:none">
+    <h1>Place Order</h1>
     <input type="text" id="name" placeholder="Full Name">
-    <input type="text" id="phone" placeholder="Phone Number (11 digits)" inputmode="numeric" maxlength="11">
-    <div style="display: flex; gap: 8px;">
-        <input type="text" id="state" placeholder="Province">
-        <input type="text" id="municipality" placeholder="Municipality">
-    </div>
+    <input type="number" id="phone" placeholder="Phone Number (11 digits)">
+    <input type="text" id="state" placeholder="State/Province">
+    <input type="text" id="municipality" placeholder="Municipality/City">
     <input type="text" id="barangay" placeholder="Barangay">
-    <textarea id="fullAddress" placeholder="✨ COMPLETE ADDRESS (Street, House No, Landmark)"></textarea>
-    <input type="text" id="zip" placeholder="Zip Code (4-5 digits)" inputmode="numeric" maxlength="5">
-    <textarea id="note" placeholder="Note to seller..."></textarea>
-    
+    <input type="text" id="zip" placeholder="Zip Code">
+    <textarea id="fullAddress" placeholder="Full Detailed Address (House #, Street, etc.)"></textarea>
+    <textarea id="note" placeholder="Order Notes (Optional)"></textarea>
+
     <div class="type-toggle-container">
         <button type="button" class="type-btn active" id="typeBundle">Bundle Checkout</button>
         <button type="button" class="type-btn" id="typeSingle">Single Checkout</button>
@@ -72,265 +64,267 @@
     <input type="number" id="itemCount" placeholder="Item Quantity">
     <div id="skuInputs"></div>
     <div class="total-price" id="totalPrice">Total: ₱0</div>
-    
+
     <p style="font-weight: 800; color: var(--red-brown); margin-bottom: 5px;">Scan to Pay 💳</p>
     <img src="https://i.imgur.com/MOC4LZ6.jpeg" style="width:180px; border-radius:15px; border:3px solid var(--red-brown); margin-bottom:5px;">
     <input type="text" id="ref" placeholder="Payment Reference Number">
-    
+
     <button id="btnSubmit" class="btn-purple">Submit Order ✨</button>
     <button id="btnBackPlace" class="btn-outline">Back</button>
 </div>
 
-<!-- STATUS PAGE -->
-<div id="status" class="container" style="display:none; border-color: var(--red-brown);">
-    <h1>📦 Order Status</h1>
-    <input type="text" id="searchName" placeholder="Enter your Registered Full Name">
+<!-- Status 📦 -->
+<div id="status" class="container" style="display:none">
+    <h1>Order Status</h1>
+    <input type="text" id="searchName" placeholder="Enter Registered Name">
     <button id="btnCheckStatus" class="btn-brown">Find My Order</button>
     <div id="statusResult"></div>
     <button id="btnBackStatus" class="btn-outline">Back</button>
 </div>
 
-<!-- ADMIN LOGIN -->
-<div id="admin" class="container" style="display:none;">
-    <h1>🔐 Admin Access</h1>
-    <input type="password" id="adminPassword" placeholder="Enter Admin Password">
+<!-- Admin Login 🔐 -->
+<div id="admin" class="container" style="display:none">
+    <h1>Admin Access</h1>
+    <input type="password" id="adminPassword" placeholder="Enter Password">
     <button id="btnAdminLogin" class="btn-purple">Login</button>
     <button id="btnBackAdmin" class="btn-outline">Back</button>
 </div>
 
-<!-- ADMIN PANEL -->
-<div id="adminPanel" class="container" style="display:none; max-width: 600px;">
+<!-- Admin Panel 👨‍💻 -->
+<div id="adminPanel" class="container" style="display:none">
     <h1>👨‍💻 Orders List</h1>
     <div id="adminOrders"></div>
     <button id="btnAdminLogout" class="btn-outline">Logout</button>
 </div>
 
-<!-- PROCESSING SCREEN -->
 <div id="processingScreen" class="processing-screen">
     <div class="loader"></div>
-    <div id="processingText" style="font-size:20px; font-weight:800;">✨ SYNCING TO CLOUD... ✨</div>
-    <div id="successText" style="display:none; font-size:24px; font-weight:800;">🧸 ORDER RECEIVED! 🧸</div>
+    <h2 id="processingText">✨ SYNCING TO CLOUD... ✨</h2>
+    <h2 id="successText" style="display:none">🧸 ORDER RECEIVED! 🧸</h2>
 </div>
 
 <script>
-    // --- FIREBASE CONFIG ---
-    const firebaseConfig = {
-        apiKey: "AIzaSyCNSYtQeoaNCpPMI_QGcRBCQ2ZZzpTF4pg",
-        authDomain: "soleibooking.firebaseapp.com",
-        projectId: "soleibooking",
-        storageBucket: "soleibooking.firebasestorage.app",
-        messagingSenderId: "505843193494",
-        appId: "1:505843193494:web:aef48f29998e574a9514b7",
-        databaseURL: "https://soleibooking-default-rtdb.firebaseio.com"
-    };
-    firebase.initializeApp(firebaseConfig);
-    const db = firebase.database();
+// --- FIREBASE CONFIG ---
+const firebaseConfig = {
+    apiKey: "AIzaSyCNSYtQeoaNCpPMI_QGcRBCQ2ZZzpTF4pg",
+    authDomain: "soleibooking.firebaseapp.com",
+    projectId: "soleibooking",
+    storageBucket: "soleibooking.firebasestorage.app",
+    messagingSenderId: "505843193494",
+    appId: "1:505843193494:web:aef48f29998e574a9514b7",
+    databaseURL: "https://soleibooking-default-rtdb.firebaseio.com"
+};
+firebase.initializeApp(firebaseConfig);
+const db = firebase.database();
 
-    const priceMap = {
-        bundle: { "70%": 70, "255 Capped": 80 },
-        single: { "70%": 40, "255 Capped": 50 }
-    };
-    let currentCheckoutType = "bundle";
-    let ADMIN_PASS = "soleixea123";
+const priceMap = {
+    bundle: { "70%": 70, "255 Capped": 80 },
+    single: { "70%": 40, "255 Capped": 50 }
+};
 
-    // Navigation
-    function showPage(p){
-        document.querySelectorAll('.container').forEach(c => c.style.display='none');
-        document.getElementById(p).style.display='block';
+let currentCheckoutType = "bundle";
+let ADMIN_PASS = "soleixea123";
+
+// Navigation
+function showPage(p){
+    document.querySelectorAll('.container').forEach(c => c.style.display='none');
+    document.getElementById(p).style.display='block';
+}
+
+document.getElementById("btnPlace").onclick = () => showPage('place');
+document.getElementById("btnStatus").onclick = () => showPage('status');
+document.getElementById("btnAdmin").onclick = () => showPage('admin');
+document.getElementById("btnBackPlace").onclick = () => showPage('home');
+document.getElementById("btnBackStatus").onclick = () => showPage('home');
+document.getElementById("btnBackAdmin").onclick = () => showPage('home');
+
+// Toggle Logic
+const bB = document.getElementById("typeBundle"), bS = document.getElementById("typeSingle");
+bB.onclick = () => { currentCheckoutType = "bundle"; bB.classList.add("active"); bS.classList.remove("active"); refreshVouchers(); };
+bS.onclick = () => { currentCheckoutType = "single"; bS.classList.add("active"); bB.classList.remove("active"); refreshVouchers(); };
+
+const itemInp = document.getElementById("itemCount"), skuDiv = document.getElementById("skuInputs");
+itemInp.oninput = refreshVouchers;
+
+function refreshVouchers() {
+    const count = parseInt(itemInp.value) || 0;
+    skuDiv.innerHTML = "";
+    for(let i=1; i<=count; i++){
+        const div = document.createElement("div");
+        div.className = "sku-input";
+        div.innerHTML = `
+            <b style="color:var(--purple-blue)">Item #${i}</b>
+            <input type="text" placeholder="SKU Code" class="sku">
+            <div style="display:flex; gap:5px;">
+                <input type="text" placeholder="Size" class="skuSize">
+                <input type="text" placeholder="Color" class="skuColor">
+            </div>
+            <select class="voucher">
+                <option value="">Select Voucher</option>
+                <option value="70%">70% - ₱${priceMap[currentCheckoutType]["70%"]}</option>
+                <option value="255 Capped">255 Capped - ₱${priceMap[currentCheckoutType]["255 Capped"]}</option>
+            </select>`;
+        skuDiv.appendChild(div);
     }
-    document.getElementById("btnPlace").onclick = () => showPage('place');
-    document.getElementById("btnStatus").onclick = () => showPage('status');
-    document.getElementById("btnAdmin").onclick = () => showPage('admin');
-    document.getElementById("btnBackPlace").onclick = () => showPage('home');
-    document.getElementById("btnBackStatus").onclick = () => showPage('home');
-    document.getElementById("btnBackAdmin").onclick = () => showPage('home');
+    skuDiv.querySelectorAll(".voucher").forEach(s => s.onchange = updateTotal);
+    updateTotal();
+}
 
-    // Toggle Logic
-    const bB = document.getElementById("typeBundle"), bS = document.getElementById("typeSingle");
-    bB.onclick = () => { currentCheckoutType = "bundle"; bB.classList.add("active"); bS.classList.remove("active"); refreshVouchers(); };
-    bS.onclick = () => { currentCheckoutType = "single"; bS.classList.add("active"); bB.classList.remove("active"); refreshVouchers(); };
+function updateTotal() {
+    let total = 0;
+    document.querySelectorAll(".voucher").forEach(v => {
+        if(v.value) total += priceMap[currentCheckoutType][v.value];
+    });
+    document.getElementById("totalPrice").innerText = `Total: ₱${total}`;
+}
 
-    const itemInp = document.getElementById("itemCount"), skuDiv = document.getElementById("skuInputs");
-    itemInp.oninput = refreshVouchers;
+// --- SUBMIT ---
+document.getElementById("btnSubmit").onclick = () => {
+    const nm = document.getElementById("name").value.trim(),
+          ph = document.getElementById("phone").value,
+          addr = document.getElementById("fullAddress").value.trim(),
+          rf = document.getElementById("ref").value.trim();
 
-    function refreshVouchers() {
-        const count = parseInt(itemInp.value) || 0;
-        skuDiv.innerHTML = "";
-        for(let i=1; i<=count; i++){
-            const div = document.createElement("div");
-            div.className = "sku-input";
-            div.innerHTML = `
-                <b style="color:var(--purple-blue)">Item #${i}</b>
-                <input type="text" placeholder="SKU Code" class="sku">
-                <div style="display:flex; gap:5px;">
-                    <input type="text" placeholder="Size" class="skuSize">
-                    <input type="text" placeholder="Color" class="skuColor">
-                </div>
-                <select class="voucher">
-                    <option value="">Select Voucher</option>
-                    <option value="70%">70% - ₱${priceMap[currentCheckoutType]["70%"]}</option>
-                    <option value="255 Capped">255 Capped - ₱${priceMap[currentCheckoutType]["255 Capped"]}</option>
-                </select>`;
-            skuDiv.appendChild(div);
+    if(!nm || ph.length < 11 || !addr || !rf) return alert("Please fill in all details including Complete Address and Ref #!");
+
+    const skus = [];
+    document.querySelectorAll(".sku-input").forEach(e => {
+        const s = e.querySelector(".sku").value, sz = e.querySelector(".skuSize").value, cl = e.querySelector(".skuColor").value, v = e.querySelector(".voucher").value;
+        if(s && v) skus.push({sku:s, size: sz || 'N/A', color: cl || 'N/A', voucher:v, price: priceMap[currentCheckoutType][v]});
+    });
+
+    if(skus.length === 0) return alert("Add at least one item with SKU and Voucher!");
+
+    const order = {
+        id: Date.now(),
+        name: nm,
+        phone: ph,
+        ref: rf,
+        state: document.getElementById("state").value,
+        mun: document.getElementById("municipality").value,
+        brgy: document.getElementById("barangay").value,
+        fullAddr: addr,
+        zip: document.getElementById("zip").value,
+        note: document.getElementById("note").value,
+        skus,
+        total: skus.reduce((a,b)=>a+b.price, 0),
+        status: "PENDING",
+        adminNote: "",
+        adminDel: false,
+        custDel: false,
+        type: currentCheckoutType
+    };
+
+    document.getElementById("processingScreen").style.display="flex";
+    db.ref('orders').push(order).then(() => {
+        document.getElementById("processingText").style.display="none";
+        document.getElementById("successText").style.display="block";
+        setTimeout(()=> location.reload(), 1500);
+    });
+};
+
+// --- ADMIN PANEL ---
+document.getElementById("btnAdminLogin").onclick = () => {
+    if(document.getElementById("adminPassword").value === ADMIN_PASS) {
+        showPage('adminPanel');
+        db.ref('orders').on('value', (snap) => renderAdmin(snap.val()));
+    } else alert("Wrong password!");
+};
+
+function renderAdmin(data) {
+    const cont = document.getElementById("adminOrders");
+    cont.innerHTML = "";
+    if(!data) { cont.innerHTML = "No orders found."; return; }
+
+    Object.keys(data).forEach(key => {
+        const o = data[key];
+        if(o.adminDel) return;
+        let itemsHtml = o.skus.map(i => `
+            <div class="item-row">
+                <b>SKU:</b> ${i.sku} | <b>Size:</b> ${i.size} | <b>Color:</b> ${i.color}<br>
+                <small>Voucher: ${i.voucher} (₱${i.price})</small>
+            </div>
+        `).join('');
+
+        const div = document.createElement("div");
+        div.className = "order-card";
+        div.innerHTML = `
+            <span class="badge ${o.status === 'COMPLETED' ? 'badge-completed' : 'badge-pending'}">${o.status}</span><br>
+            <b>Customer:</b> ${o.name} (${o.phone})<br>
+            <b>Ref #:</b> <span style="color:var(--purple-blue)">${o.ref}</span><br>
+            <b>Address:</b> ${o.fullAddr}, ${o.brgy}, ${o.mun}, ${o.state}, ${o.zip || 'N/A'}<br>
+            <b>Cust. Note:</b> <span style="color:#555; font-style:italic;">${o.note || 'None'}</span><br>
+            <hr>
+            <b>Items:</b><br>${itemsHtml}
+            <hr>
+            <b>Total: ₱${o.total}</b><br>
+            <textarea id="anote-${key}" placeholder="Add admin notes here...">${o.adminNote || ""}</textarea>
+            <div style="display:flex; gap:5px;">
+                <button class="btn-purple" style="padding:10px; font-size:13px;" onclick="confirmOrder('${key}')">Verify & Complete</button>
+                <button class="btn-brown" style="padding:10px; font-size:13px;" onclick="deleteOrder('${key}', 'admin')">Archive</button>
+            </div>
+        `;
+        cont.appendChild(div);
+    });
+}
+
+window.confirmOrder = (key) => {
+    const n = document.getElementById(`anote-${key}`).value.trim();
+    db.ref('orders/' + key).update({ status: "COMPLETED", adminNote: n || "Verified by Admin" });
+    alert("Order marked as COMPLETED!");
+};
+
+// --- CUSTOMER CHECK STATUS ---
+document.getElementById("btnCheckStatus").onclick = () => {
+    const searchNm = document.getElementById("searchName").value.trim().toLowerCase();
+    const res = document.getElementById("statusResult");
+    if(!searchNm) return alert("Enter your name!");
+    res.innerHTML = "Searching...";
+
+    db.ref('orders').once('value', (snap) => {
+        const data = snap.val();
+        res.innerHTML = "";
+        let found = false;
+        if(data) {
+            Object.keys(data).forEach(key => {
+                const o = data[key];
+                if(o.name.toLowerCase() === searchNm && !o.custDel) {
+                    found = true;
+                    let itemsHtml = o.skus.map(i => `<div class="item-row"><b>SKU:</b> ${i.sku} | <b>Size:</b> ${i.size} | <b>Color:</b> ${i.color}</div>`).join('');
+                    const div = document.createElement("div");
+                    div.className = "order-card";
+                    div.style.borderColor = "var(--purple-blue)";
+                    div.innerHTML = `
+                        <div style="text-align:center; margin-bottom:10px;">
+                            <span class="badge ${o.status === 'COMPLETED' ? 'badge-completed' : 'badge-pending'}">${o.status}</span>
+                        </div>
+                        <b>Admin's Note:</b> <span style="color:var(--red-brown)">${o.adminNote || "Pending verification..."}</span><hr>
+                        <b>Reference #:</b> ${o.ref}<br>
+                        <b>Phone:</b> ${o.phone}<br>
+                        <b>Address:</b> ${o.fullAddr}, ${o.brgy}, ${o.mun}, ${o.state}, ${o.zip || ''}<br>
+                        <b>My Note:</b> <span style="color:#666">${o.note || 'None'}</span><br>
+                        <hr>
+                        <b>Your Items:</b><br>${itemsHtml}
+                        <hr>
+                        <b>Total Amount: ₱${o.total}</b>
+                        <button class="btn-brown" style="padding:5px; font-size:12px; margin-top:10px;" onclick="deleteOrder('${key}', 'cust')">Remove from History</button>
+                    `;
+                    res.appendChild(div);
+                }
+            });
         }
-        skuDiv.querySelectorAll(".voucher").forEach(s => s.onchange = updateTotal);
-        updateTotal();
-    }
+        if(!found) res.innerHTML = "No records found for this name. Please check your spelling!";
+    });
+};
 
-    function updateTotal() {
-        let total = 0;
-        document.querySelectorAll(".voucher").forEach(v => {
-            if(v.value) total += priceMap[currentCheckoutType][v.value];
-        });
-        document.getElementById("totalPrice").innerText = `Total: ₱${total}`;
-    }
+window.deleteOrder = (key, type) => {
+    if(!confirm("Are you sure?")) return;
+    if(type === 'admin') db.ref('orders/' + key).update({ adminDel: true });
+    else db.ref('orders/' + key).update({ custDel: true });
+    location.reload();
+};
 
-    // --- SUBMIT ---
-    document.getElementById("btnSubmit").onclick = () => {
-        const nm = document.getElementById("name").value.trim(),
-              ph = document.getElementById("phone").value,
-              addr = document.getElementById("fullAddress").value.trim(),
-              rf = document.getElementById("ref").value.trim();
-
-        if(!nm || ph.length < 11 || !addr || !rf) return alert("Please fill in all details including Complete Address and Ref #!");
-
-        const skus = [];
-        document.querySelectorAll(".sku-input").forEach(e => {
-            const s = e.querySelector(".sku").value,
-                  sz = e.querySelector(".skuSize").value,
-                  cl = e.querySelector(".skuColor").value,
-                  v = e.querySelector(".voucher").value;
-            if(s && v) skus.push({sku:s, size: sz || 'N/A', color: cl || 'N/A', voucher:v, price: priceMap[currentCheckoutType][v]});
-        });
-
-        if(skus.length === 0) return alert("Add at least one item with SKU and Voucher!");
-
-        const order = {
-            id: Date.now(),
-            name: nm, phone: ph, ref: rf,
-            state: document.getElementById("state").value,
-            mun: document.getElementById("municipality").value,
-            brgy: document.getElementById("barangay").value,
-            fullAddr: addr,
-            zip: document.getElementById("zip").value,
-            note: document.getElementById("note").value,
-            skus,
-            total: skus.reduce((a,b)=>a+b.price, 0),
-            status: "PENDING",
-            adminNote: "",
-            adminDel: false, custDel: false,
-            type: currentCheckoutType
-        };
-
-        document.getElementById("processingScreen").style.display="flex";
-        db.ref('orders').push(order).then(() => {
-            document.getElementById("processingText").style.display="none";
-            document.getElementById("successText").style.display="block";
-            setTimeout(()=> location.reload(), 1500);
-        });
-    };
-
-    // --- ADMIN PANEL ---
-    document.getElementById("btnAdminLogin").onclick = () => {
-        if(document.getElementById("adminPassword").value === ADMIN_PASS) {
-            showPage('adminPanel');
-            db.ref('orders').on('value', (snap) => renderAdmin(snap.val()));
-        } else alert("Wrong password!");
-    };
-
-    function renderAdmin(data) {
-        const cont = document.getElementById("adminOrders");
-        cont.innerHTML = "";
-        if(!data) { cont.innerHTML = "No orders found."; return; }
-
-        Object.keys(data).forEach(key => {
-            const o = data[key];
-            if(o.adminDel) return;
-
-            let itemsHtml = o.skus.map(i => `
-                <div class="item-row">
-                    <b>SKU:</b> ${i.sku} | <b>Size:</b> ${i.size} | <b>Color:</b> ${i.color}<br>
-                    <small>Voucher: ${i.voucher} (₱${i.price})</small>
-                </div>
-            `).join('');
-
-            const div = document.createElement("div");
-            div.className = "order-card";
-            div.innerHTML = `
-                <span class="badge ${o.status === 'COMPLETED' ? 'badge-completed' : 'badge-pending'}">${o.status}</span><br>
-                <b>Customer:</b> ${o.name} (${o.phone})<br>
-                <b>Ref #:</b> <span style="color:var(--purple-blue)">${o.ref}</span><br>
-                <b>Address:</b> ${o.fullAddr}, ${o.brgy}, ${o.mun}, ${o.state}<br>
-                <hr>
-                <b>Items:</b><br>${itemsHtml}
-                <hr>
-                <b>Total: ₱${o.total}</b><br>
-                <textarea id="anote-${key}" placeholder="Add admin notes here...">${o.adminNote || ""}</textarea>
-                <div style="display:flex; gap:5px;">
-                    <button class="btn-purple" style="padding:10px; font-size:13px;" onclick="confirmOrder('${key}')">Verify & Complete</button>
-                    <button class="btn-brown" style="padding:10px; font-size:13px;" onclick="deleteOrder('${key}', 'admin')">Archive</button>
-                </div>
-            `;
-            cont.appendChild(div);
-        });
-    }
-
-    window.confirmOrder = (key) => {
-        const n = document.getElementById(`anote-${key}`).value.trim();
-        db.ref('orders/' + key).update({ status: "COMPLETED", adminNote: n || "Verified by Admin" });
-        alert("Order marked as COMPLETED!");
-    };
-
-    // --- CUSTOMER CHECK STATUS ---
-    document.getElementById("btnCheckStatus").onclick = () => {
-        const searchNm = document.getElementById("searchName").value.trim().toLowerCase();
-        const res = document.getElementById("statusResult");
-        if(!searchNm) return alert("Enter your name!");
-        
-        res.innerHTML = "Searching...";
-        db.ref('orders').once('value', (snap) => {
-            const data = snap.val();
-            res.innerHTML = "";
-            let found = false;
-            if(data) {
-                Object.keys(data).forEach(key => {
-                    const o = data[key];
-                    if(o.name.toLowerCase() === searchNm && !o.custDel) {
-                        found = true;
-                        let itemsHtml = o.skus.map(i => `<div class="item-row"><b>SKU:</b> ${i.sku} | <b>Size:</b> ${i.size} | <b>Color:</b> ${i.color}</div>`).join('');
-                        
-                        const div = document.createElement("div");
-                        div.className = "order-card";
-                        div.style.borderColor = "var(--purple-blue)";
-                        div.innerHTML = `
-                            <div style="text-align:center; margin-bottom:10px;">
-                                <span class="badge ${o.status === 'COMPLETED' ? 'badge-completed' : 'badge-pending'}">${o.status}</span>
-                            </div>
-                            <b>Admin's Note:</b> <span style="color:var(--red-brown)">${o.adminNote || "Pending verification..."}</span><hr>
-                            <b>Reference #:</b> ${o.ref}<br>
-                            <b>Address:</b> ${o.fullAddr}, ${o.brgy}<br>
-                            <hr>
-                            <b>Your Items:</b><br>${itemsHtml}
-                            <hr>
-                            <b>Total Amount: ₱${o.total}</b>
-                            <button class="btn-brown" style="padding:5px; font-size:12px; margin-top:10px;" onclick="deleteOrder('${key}', 'cust')">Remove from History</button>
-                        `;
-                        res.appendChild(div);
-                    }
-                });
-            }
-            if(!found) res.innerHTML = "No records found for this name. Please check your spelling!";
-        });
-    };
-
-    window.deleteOrder = (key, type) => {
-        if(!confirm("Are you sure?")) return;
-        if(type === 'admin') db.ref('orders/' + key).update({ adminDel: true });
-        else db.ref('orders/' + key).update({ custDel: true });
-        location.reload();
-    };
-
-    document.getElementById("btnAdminLogout").onclick = () => location.reload();
+document.getElementById("btnAdminLogout").onclick = () => location.reload();
 </script>
 </body>
 </html>
